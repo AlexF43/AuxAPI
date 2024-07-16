@@ -1,6 +1,6 @@
 @AuxAPI_HostAddress = http://localhost:5165
 
-GET {{AuxAPI_HostAddress}}/weatherforecast/
+GET {{AuxAPI_HostAddress}}/api/SpotifyAuth/hello/
 Accept: application/json
 
 ###

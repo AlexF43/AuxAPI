@@ -1,0 +1,6 @@
+@AuxAPI_HostAddress = http://localhost:5165
+
+GET {{AuxAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

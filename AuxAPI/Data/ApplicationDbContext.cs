@@ -10,4 +10,6 @@ public class ApplicationDbContext : DbContext
     }
     
     public DbSet<TestItem> TestItems { get; set; }
+
+    public DbSet<User> Users { get; set; }
 }

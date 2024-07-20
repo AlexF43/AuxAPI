@@ -13,19 +13,15 @@ public class SpotifyAuthController: ControllerBase
     private readonly SpotifyAuthService _spotifyAuthService;
     private readonly ApplicationDbContext _context;
     private readonly ILogger<SpotifyAuthController> _logger;
+    private readonly SpotifyUserService _spotifyUserService;
 
-    public SpotifyAuthController(SpotifyAuthService spotifyAuthService, ApplicationDbContext context, ILogger<SpotifyAuthController> logger)
+    public SpotifyAuthController(SpotifyAuthService spotifyAuthService, ApplicationDbContext context, ILogger<SpotifyAuthController> logger, SpotifyUserService spotifyUserService)
     {
         _spotifyAuthService = spotifyAuthService;
+        _spotifyUserService = spotifyUserService;
         _context = context;
         _logger = logger;
-    }
-
-    [HttpGet("hello")]
-    public IActionResult HelloWorld()
-    {
-        var message = _spotifyAuthService.GetHelloWorld();
-        return Ok(message);
+        
     }
     
     [HttpPost("additem")]
@@ -51,7 +47,8 @@ public class SpotifyAuthController: ControllerBase
         {
             var response = await _spotifyAuthService.GetUserAccessToken(code);
             _logger.LogInformation("Successfully obtained access token");
-            return Ok(new { message = "Authorization successful", token_type = response.token_type, expires_in = response.expires_in });
+            var user = await _spotifyUserService.GetCurrentUserDetails(response.access_token);
+            return Ok(new { message = "got user", username = user.display_name });
         }
         catch (Exception ex)
         {
